@@ -1,0 +1,23 @@
+name: Build and deploy
+
+on:
+  release:
+    types: [released]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build and deploy project
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD-HOST }}
+          username: ${{ secrets.PROD-HOST }}
+          key: ${{ secrets.PROD-HOST }}
+          port: ${{ secrets.PROD-HOST }}
+          passphrase: ${{ secrets.PROD-HOST }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            git pull origin prod
+            docker build .
+            docker run -d
